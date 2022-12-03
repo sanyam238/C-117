@@ -9,3 +9,36 @@ var timer_check = "";
 var drawn_doodle = "";
 var answer_holder = "";
 score = 0;
+
+function setup(){
+    canvas = createCanvas(280,280);
+    canvas.center();
+    background("white");
+}
+
+function draw(){
+    check_doodle();
+    if(drawn_doodle ==sketch){
+        answer_holder="set";
+        timer_counter++;
+        document.getElementById("time").innerHTML = "Time: "+timer_counter;
+        console.log(timer_counter);
+    }
+
+    if(timer_counter>300){
+        timer_counter=0;
+        timer_check = "completed";
+    }
+
+    if(timer_check == "completed" && answer_holder == "set"){
+        timer_check = "";
+        answer_holder = "";
+        updateCanvas();
+    }
+}
+
+function check_doodle(){}
+
+function updateCanvas(){
+    background("white");
+}
