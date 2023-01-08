@@ -10,14 +10,26 @@ var drawn_doodle = "";
 var answer_holder = "";
 score = 0;
 
+function preload(){
+    classifier = ml5.imageClassifier('DoodleNet');
+}
+
 function setup(){
     canvas = createCanvas(280,280);
     canvas.center();
     background("white");
+    canvas.mouseReleased(classifyCanvas);
 }
 
 function draw(){
     check_doodle();
+
+    strokeWeight(5);
+    stroke(0);
+if(mouseIsPressed){
+    line(pmouseX,pmouseY,mouseX,mouseY);
+}
+    
     if(drawn_doodle ==sketch){
         answer_holder="set";
         timer_counter++;
@@ -41,4 +53,19 @@ function check_doodle(){}
 
 function updateCanvas(){
     background("white");
+}
+
+function classifyCanvas(){
+    classifier.classify(canvas,gotResult);
+}
+
+function gotResult(error,results){
+    if(error){
+        console.error(error);
+    }
+    else{
+        console.log(results);
+        document.getElementById("result").innerHTML = "identified doodle: "+ results[0].label;
+        document.getElementById("accuracy").innerHTML = "confidence: "+ Math.round(results[0].confidence*100)+"%";
+    }
 }
